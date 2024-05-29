@@ -1,0 +1,300 @@
+To connect to EC2 instance From 
+
+while creating the instance download the .pem RSA key pair file.
+G:\Sai AWS folder has the file myFirstRSAKeyPair.pem
+second file firstRSAKeyPair2.pem for the AWS ec2 from ksai37459 user login.
+
+move the file to downloads folder and from there open cmd
+@3.95.60.115 here is the public IPv4 address which we get from AWS - > EC2-> instances -- open the instance 
+
+ssh -i myFirstRSAKeyPair.pem ubuntu@3.95.60.115
+ssh -i firstRSAKeyPair2.pem ubuntu@54.167.84.55
+
+
+ubuntu@ip-172-31-18-223:~$ history
+    1  history
+    2  who am i
+    3  whoami
+	
+installing docker -- if we want to do in local machine use DockerDesktop
+    4  sudo apt update
+    6  sudo apt install docker.io -y
+To check if docker is running
+    8  sudo systemctl status docker
+    9  docker run hello-world 
+	above fails as we have installed docker using sudo and by default docker has to be installed using root user only and 
+	docker demon is also executes using the root user.
+	this is one drawback of docker as if someone hacks the system and docker is using root user.
+	As Docker is running as root, our user here ubuntu will not have access to it so use below command to add ubuntu user to docker group. 
+	
+   10  sudo usermod -aG docker ubuntu
+   11 logout
+ 
+login again using ssh -i myFirstRSAKeyPair.pem ubuntu@3.95.60.115
+
+ubuntu@ip-172-31-18-223:~$ docker run hello-world
+
+$git clone https://github.com/sk1930/Docker.git
+
+create app.py and Dockerfile as in examples/firstDockerExample
+
+Dockerfile contents;
+		firstly I am saying from Ubuntu
+		latest that means we have to get a base
+		image for our Docker container this is
+		very very important and that is what I
+		am stressing from previous class as well
+		your Docker container will have a base
+		image it doesn't mean that your Docker
+		container will run without host
+		operating system so that's why I am
+		getting Ubuntu latest from Docker Hub
+		why I'm getting from Docker Hub because
+		I can get from a public registry okay so
+		I'm getting this information from a
+		public registry and what I have done is
+		Ubuntu latest that is I'm using a Ubuntu
+		image you can use any image that you
+		want you can use Debian you can use
+		Alpine okay 
+
+
+		and then I'm saying work directory 
+		work directory is nothing but
+		on the docker container  you are
+		just using the CD command and you are
+		moving to slash app folder you can
+		ignore this as well
+
+		copy . /app
+		I want to copy the contents here okay so
+
+		what I am saying is copy the everything that is
+		present in the same folder to slash app
+		why I am copying to slash app because I
+		said my work directory is going to be
+		slash app so all the commands that I am
+		going to execute inside this Docker
+		image is going to be inside the slash
+		app folder 
+				
+		installing python because my application
+		is a python application and I want to
+		get all of this information into the
+		docker image so that next time when
+		somebody runs the docker image they will
+		also execute the same set of actions I
+		mean they don't even execute because the
+		docker image is already created they
+		just run the container directly okay
+		provide all the dependencies that are
+		required for your application 
+
+
+		finally just run a command called
+		python3 app.py
+
+
+
+ubuntu@ip-172-31-18-223:~$ ls
+Docker
+ubuntu@ip-172-31-18-223:~$ cd Docker/
+ubuntu@ip-172-31-18-223:~/Docker$ ls
+ubuntu@ip-172-31-18-223:~/Docker$ mkdir examples
+ubuntu@ip-172-31-18-223:~/Docker$ cd examples/
+ubuntu@ip-172-31-18-223:~/Docker/examples$ mkdir firstDockerExample
+ubuntu@ip-172-31-18-223:~/Docker/examples$ cd firstDockerExample/
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ ls
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ nano app.py
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ nano app.py
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ nano Dockerfile
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ nano Dockerfile
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ ls
+Dockerfile  app.py
+ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ docker build -t ksai670/my-first-image:v1 .
+
+
+
+Docker demon is receiving uh the
+instructions in the docker file using
+the docker build command and it is
+executing. 
+ksai670/my-first-image:v1
+
+
+Docker login 
+
+ksai is the username
+my-first-image is the repository name thats going to be created
+ v1 is the tag 
+ 
+okay why I'm providing tag because on
+your machine or on your laptop or on
+your ec2 instance they can be hundreds
+of images so if you are not using a tag
+what happens is your image will be
+lost or you your image will be generally
+created with a Docker image ID and
+that Docker image ID it is very
+difficult to remember so that's why
+always tag it.
+
+
+image is successfully created above and now run it
+-it for interactive terminal
+$docker run -it ksai670/my-first-image:v1
+
+
+public IPv4 address changed after stopping and starting the EC2 instance.
+
+ssh -i myFirstRSAKeyPair.pem ubuntu@3.95.60.115
+new ipv4 address is 34.229.177.146
+
+ssh -i myFirstRSAKeyPair.pem ubuntu@34.229.177.146
+
+
+		ubuntu@ip-172-31-18-223:~$ ls
+		Docker
+		ubuntu@ip-172-31-18-223:~$ cd Docker/
+		ubuntu@ip-172-31-18-223:~/Docker$ ls
+		examples
+		ubuntu@ip-172-31-18-223:~/Docker$ cd examples/
+		ubuntu@ip-172-31-18-223:~/Docker/examples$ ls
+		firstDockerExample
+		ubuntu@ip-172-31-18-223:~/Docker/examples$ cd firstDockerExample/
+		ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ ls
+		Dockerfile  app.py
+		ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ docker build -t ksai670/my-first-image:v1 .
+		DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+					Install the buildx component to build images with BuildKit:
+					https://docs.docker.com/go/buildx/
+
+		Sending build context to Docker daemon  3.072kB
+		Step 1/6 : FROM ubuntu:latest
+		 ---> bf3dc08bfed0
+		Step 2/6 : WORKDIR /app
+		 ---> Using cache
+		 ---> 7ff06acf220f
+		Step 3/6 : COPY . /app
+		 ---> Using cache
+		 ---> 0b5c0dee6936
+		Step 4/6 : RUN apt-get update && apt-get install -y python3 python3-pip
+		 ---> Using cache
+		 ---> a8cd8134f349
+		Step 5/6 : ENV NAME World
+		 ---> Using cache
+		 ---> ec85b48bc468
+		Step 6/6 : CMD ["python3", "app.py"]
+		 ---> Using cache
+		 ---> c6181897bfe2
+		Successfully built c6181897bfe2
+		Successfully tagged ksai670/my-first-image:v1
+		ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$ docker run -it  ksai670/my-first-image:v1
+		HelloWorld
+		ubuntu@ip-172-31-18-223:~/Docker/examples/firstDockerExample$
+		
+		
+		$ docker login
+		$docker push ksai670/my-first-image:v1
+
+
+Goto browser and login 
+and in repositories u will see my-first-image
+and in tags u will see v1
+
+
+
+anyone can pull the image as it is public using :
+Goto tags to see the command https://hub.docker.com/repository/docker/ksai670/my-first-image/tags
+
+$docker pull ksai670/my-first-image:v1
+$ docker images 
+to see the list of images.
+
+
+
+
+new EC2 INSTANCE from ksai37459 user
+
+
+ssh -i firstRSAKeyPair2.pem ubuntu@54.167.84.55
+
+git clone https://github.com/sk1930/Docker.git
+
+ cd Docker/
+   20  ls
+   sudo apt install python3
+   22  python3
+   23  ls
+   24  cd examples/
+   25  ls
+   26  mkdir 002webAppExample
+   27  ls
+   28  cd 002webAppExample/
+   29  ls
+   31  django-admin startproject devops
+ ubuntu@ip-172-31-19-7:~/Docker/examples/002webAppExample$ django-admin startproject devops
+ubuntu@ip-172-31-19-7:~/Docker/examples/002webAppExample$ ls
+devops
+ubuntu@ip-172-31-19-7:~/Docker/examples/002webAppExample$ cd devops/
+ubuntu@ip-172-31-19-7:~/Docker/examples/002webAppExample/devops$ ls
+devops  manage.py
+
+
+
+in devops directory there are urls.py and settings.py to be modified.
+https://docs.djangoproject.com/en/5.0/intro/tutorial01/
+
+
+Your apps can live anywhere on your Python path. In this tutorial, we’ll create our poll app in the same directory as your manage.py file so that it can be imported as its own top-level module, rather than a submodule of mysite.
+
+To create your app, make sure you’re in the same directory as manage.py and type this command:
+
+$ python3 manage.py startapp demo
+creates demo directory with files
+
+add code in demo/views.py
+add demo/templates/demo_site.html
+
+
+create 002webAppExample/Dockerfile
+create 002webAppExample/requirements.txt
+
+
+in Dockerfile
+1. set WorkDir to /app
+2. copy the requirements.txt to /app
+3. copy the source code ie devops to /app
+4. install python, pip
+5. using pip install requirements.txt
+both entrypoint and cmd can serve as the starting command.
+
+6. entrypoint is something that is not changed
+7. cmd is something that is configurable like the port number here 
+
+cmd["python3","manage.py","runserver","0.0.0.0:8000"] will also work
+but we dont want to change python to java or anything
+so we put python in entrypoint.
+
+
+$ docker build .
+ubuntu@ip-172-31-19-7:~/Docker/examples/002webAppExample$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED             SIZE
+<none>        <none>    d938dfd69eb8   17 minutes ago      591MB
+
+$docker run -it d938dfd69eb8
+	if the ip address of the ec2 instance is 54.82.61.8
+	http://54.82.61.8:8000/demo/
+	will not work,
+	the code is running on the docker image
+	so map the port of the docker image to the EC2 instance using -p 8000:8000
+$docker run -p 8000:8000 -it d938dfd69eb8
+now on accessing 	http://54.82.61.8:8000/demo/ it works.
+
+$docker build -t ksai670/my-second-image:v1 .
+$docker run -p 8000:8000 -it  ksai670/my-second-image:v1
+$docker login
+ksai670 username for ksai37459@gmail.com
+$docker push ksai670/my-second-image:v1
+
+edit inboud rules
